@@ -1,3 +1,5 @@
+import 'package:capstone/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -12,6 +14,207 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool pdf = false, notes = false, questions = false, important = false;
+
+  // ice, pizza, salad,burger
+
+  Stream? contentTypeStream;
+
+  ontheload() async {
+    contentTypeStream = await DatabaseMethods().getFoodItem("Pdf");
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    ontheload();
+    super.initState();
+  }
+
+  Widget allItems() {
+    return StreamBuilder(
+      stream: contentTypeStream,
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: snapshot.data.docs.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                DocumentSnapshot ds = snapshot.data.docs[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => DetailsScreen(
+                              title: ds["Branch"],
+                              subtitle: ds["Subject"],
+                              content: ds["Content"],
+                            ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(4),
+                    child: Material(
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        padding: EdgeInsets.all(14),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(
+                              "assets/books.jpg",
+                              height: 150,
+                              width: 150,
+                              fit: BoxFit.cover,
+                            ),
+                            SizedBox(height: 1.h),
+
+                            Text(
+                              ds["Branch"],
+                              style: AppWidget.semiBoldTextFieldStyle(),
+                            ),
+                            SizedBox(height: 0.1.h),
+                            Text(
+                              ds["Subject"],
+                              style: AppWidget.lightTextFieldStyle(),
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.thumb_up,
+                                    color:
+                                        isLiked1 ? Colors.green : Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isLiked1 = !isLiked1;
+                                      isDisliked1 = false;
+                                    });
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.thumb_down,
+                                    color:
+                                        isDisliked1 ? Colors.red : Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isDisliked1 = !isDisliked1;
+                                      isLiked1 = false;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            )
+            : CircularProgressIndicator();
+      },
+    );
+  }
+
+  Widget allItemsVertically() {
+    return StreamBuilder(
+      stream: contentTypeStream,
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: snapshot.data.docs.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                DocumentSnapshot ds = snapshot.data.docs[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => DetailsScreen(
+                              title: ds["Branch"],
+                              subtitle: ds["Subject"],
+                              content: ds["Content"],
+                            ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    // todo
+                    margin: EdgeInsets.only(right: 20.0, bottom: 20),
+                    child: Material(
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(
+                              "assets/books.jpg",
+                              height: 120,
+                              width: 110,
+                              fit: BoxFit.cover,
+                            ),
+                            SizedBox(width: 20.0),
+                            Column(
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: Text(
+                                    ds["Branch"],
+                                    style: AppWidget.semiBoldTextFieldStyle(),
+                                  ),
+                                ),
+                                SizedBox(height: 5.0),
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: Text(
+                                    ds["Subject"],
+                                    style: AppWidget.lightTextFieldStyle(),
+                                  ),
+                                ),
+                                SizedBox(height: 5.0),
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: Text(
+                                    ds["Content"],
+                                    maxLines: 3,
+                                    style: AppWidget.subjectExplain(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            )
+            : CircularProgressIndicator();
+      },
+    );
+  }
+
   bool isLiked1 = false;
   bool isLiked2 = false;
   bool isDisliked1 = false;
@@ -41,260 +244,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: showItem(),
                 ),
                 SizedBox(height: 25.0),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailsScreen(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(4),
-                          child: Material(
-                            elevation: 5.0,
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
-                              padding: EdgeInsets.all(14),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Image.asset(
-                                    "assets/books.jpg",
-                                    height: 150,
-                                    width: 150,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  SizedBox(height: 1.h),
-                                  Text(
-                                    "Operating System",
-                                    style: AppWidget.semiBoldTextFieldStyle(),
-                                  ),
-                                  SizedBox(height: 0.1.h),
-                                  Text(
-                                    "Round Robin Method",
-                                    style: AppWidget.lightTextFieldStyle(),
-                                  ),
-                                  SizedBox(height: 5.0),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.thumb_up,
-                                          color:
-                                              isLiked1
-                                                  ? Colors.green
-                                                  : Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            isLiked1 = !isLiked1;
-                                            isDisliked1 = false;
-                                          });
-                                        },
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.thumb_down,
-                                          color:
-                                              isDisliked1
-                                                  ? Colors.red
-                                                  : Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            isDisliked1 = !isDisliked1;
-                                            isLiked1 = false;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 15.0),
-                      Container(
-                        margin: EdgeInsets.all(4),
-                        child: Material(
-                          elevation: 5.0,
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            padding: EdgeInsets.all(14),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  "assets/books.jpg",
-                                  height: 150,
-                                  width: 150,
-                                  fit: BoxFit.cover,
-                                ),
-                                SizedBox(height: 1.h),
-                                Text(
-                                  "DSA",
-                                  style: AppWidget.semiBoldTextFieldStyle(),
-                                ),
-                                SizedBox(height: 0.1.h),
-                                Text(
-                                  "Linked List",
-                                  style: AppWidget.lightTextFieldStyle(),
-                                ),
-                                SizedBox(height: 5.0),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.thumb_up,
-                                        color:
-                                            isLiked2
-                                                ? Colors.green
-                                                : Colors.grey,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          isLiked2 = !isLiked2;
-                                          isDisliked2 = false;
-                                        });
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.thumb_down,
-                                        color:
-                                            isDisliked2
-                                                ? Colors.red
-                                                : Colors.grey,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          isDisliked2 = !isDisliked2;
-                                          isLiked2 = false;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+
+                Container(height: 37.6.h, child: allItems()),
+
                 SizedBox(height: 30.0),
-                Container(
-                  margin: EdgeInsets.only(right: 20.0),
-                  child: Material(
-                    elevation: 5.0,
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            "assets/books.jpg",
-                            height: 120,
-                            width: 110,
-                            fit: BoxFit.cover,
-                          ),
-                          SizedBox(width: 20.0),
-                          Column(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: Text(
-                                  "Operating System",
-                                  style: AppWidget.semiBoldTextFieldStyle(),
-                                ),
-                              ),
-                              SizedBox(height: 5.0),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: Text(
-                                  "Round Robin Method",
-                                  style: AppWidget.lightTextFieldStyle(),
-                                ),
-                              ),
-                              SizedBox(height: 5.0),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: Text(
-                                  "It is a way to manage processes in a computer by giving each one a small, equal amount of time to run. Once a process finishes its time, it goes back to the end of the line, and the next process gets its turn. This keeps everything fair and ensures no process is left waiting too long. It's commonly used in systems where many tasks need to be handled at once.",
-                                  maxLines: 3,
-                                  style: AppWidget.subjectExplain(),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+
+                allItemsVertically(),
                 SizedBox(height: 30.0),
-                Container(
-                  margin: EdgeInsets.only(right: 20.0),
-                  child: Material(
-                    elevation: 5.0,
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            "assets/books.jpg",
-                            height: 120,
-                            width: 110,
-                            fit: BoxFit.cover,
-                          ),
-                          SizedBox(width: 20.0),
-                          Column(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: Text(
-                                  "Database Management System",
-                                  style: AppWidget.semiBoldTextFieldStyle(),
-                                ),
-                              ),
-                              SizedBox(height: 5.0),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: Text(
-                                  "Normalization",
-                                  style: AppWidget.lightTextFieldStyle(),
-                                ),
-                              ),
-                              SizedBox(height: 5.0),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: Text(
-                                  "It is a database design process that organizes data to reduce redundancy and improve consistency. It involves dividing data into smaller, related tables and ensuring dependencies are logical. It follows steps called normal forms (1NF, 2NF, 3NF, etc.), each addressing specific redundancy and dependency issues for efficient storage and retrieval.",
-                                  maxLines: 3,
-                                  style: AppWidget.subjectExplain(),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(height: 30.0),
               ],
             ),
@@ -309,12 +265,13 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-          onTap: () {
-            // pdf = true;
-            // notes = false;
-            // questions = false;
-            // important = false;
-            // setState(() {});
+          onTap: () async {
+            pdf = true;
+            notes = false;
+            questions = false;
+            important = false;
+            contentTypeStream = await DatabaseMethods().getFoodItem("Pdf");
+            setState(() {});
           },
           child: Material(
             elevation: 5.0,
@@ -336,12 +293,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            // pdf = false;
-            // notes = true;
-            // questions = false;
-            // important = false;
-            // setState(() {});
+          onTap: () async {
+            pdf = false;
+            notes = true;
+            questions = false;
+            important = false;
+
+            contentTypeStream = await DatabaseMethods().getFoodItem("Notes");
+            setState(() {});
           },
           child: Material(
             elevation: 5.0,
@@ -363,12 +322,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            // pdf = false;
-            // notes = false;
-            // questions = true;
-            // important = false;
-            // setState(() {});
+          onTap: () async {
+            pdf = false;
+            notes = false;
+            questions = true;
+            important = false;
+
+            contentTypeStream = await DatabaseMethods().getFoodItem(
+              "Questions",
+            );
+            setState(() {});
           },
           child: Material(
             elevation: 5.0,
@@ -390,12 +353,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            // pdf = false;
-            // notes = false;
-            // questions = false;
-            // important = true;
-            // setState(() {});
+          onTap: () async {
+            pdf = false;
+            notes = false;
+            questions = false;
+            important = true;
+
+            contentTypeStream = await DatabaseMethods().getFoodItem(
+              "Important",
+            );
+            setState(() {});
           },
           child: Material(
             elevation: 5.0,
