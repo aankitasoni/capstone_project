@@ -1,5 +1,6 @@
 import 'package:capstone/screens/bottom_navbar.dart';
 import 'package:capstone/screens/login_signup/signup_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -21,38 +22,38 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController userEmailController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
 
-  // userLogin() async {
-  //   try {
-  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: email,
-  //       password: password,
-  //     );
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => BottomNavbar()),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'user-not-found') {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: Text(
-  //             "No User Found for that Email",
-  //             style: TextStyle(fontSize: 18.0, color: Colors.black),
-  //           ),
-  //         ),
-  //       );
-  //     } else if (e.code == 'wrong-password') {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: Text(
-  //             "Wrong Password Provided by User",
-  //             style: TextStyle(fontSize: 18.0, color: Colors.black),
-  //           ),
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }
+  userLogin() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BottomNavbar()),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "No User Found for that Email",
+              style: TextStyle(fontSize: 18.0, color: Colors.black),
+            ),
+          ),
+        );
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Wrong Password Provided by User",
+              style: TextStyle(fontSize: 18.0, color: Colors.black),
+            ),
+          ),
+        );
+      }
+    }
+  }
 
   bool _isPasswordVisible = false;
 
@@ -188,21 +189,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SizedBox(height: 7.h),
                                 GestureDetector(
                                   onTap: () {
-                                    // if (formKey.currentState!.validate()) {
-                                    //   setState(() {
-                                    //     email = userEmailController.text;
-                                    //     password = userPasswordController.text;
-                                    //   });
-                                    // }
-                                    // userLogin();
+                                    if (formKey.currentState!.validate()) {
+                                      setState(() {
+                                        email = userEmailController.text;
+                                        password = userPasswordController.text;
+                                      });
+                                    }
+                                    userLogin();
 
                                     // TODO
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => BottomNavbar(),
-                                      ),
-                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => BottomNavbar(),
+                                    //   ),
+                                    // );
                                   },
                                   child: Material(
                                     elevation: 5.0,

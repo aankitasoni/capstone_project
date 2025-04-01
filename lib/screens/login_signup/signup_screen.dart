@@ -1,4 +1,5 @@
 import 'package:capstone/screens/bottom_navbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -24,21 +25,21 @@ class _SignupScreenState extends State<SignupScreen> {
 
   final _formkey = GlobalKey<FormState>();
 
-  // registration() async {
-  //   if (password != null) {
-  //     try {
-  //       UserCredential userCredential = await FirebaseAuth.instance
-  //           .createUserWithEmailAndPassword(email: email, password: password);
-  //
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         (SnackBar(
-  //           backgroundColor: Colors.redAccent,
-  //           content: Text(
-  //             "Registered Successfully",
-  //             style: TextStyle(fontSize: 20.0),
-  //           ),
-  //         )),
-  //       );
+  registration() async {
+    if (password != null) {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          (SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Text(
+              "Registered Successfully",
+              style: TextStyle(fontSize: 20.0),
+            ),
+          )),
+        );
   //
   //       String Id = randomAlphaNumeric(10);
   //       Map<String, dynamic> addUserInfo = {
@@ -52,35 +53,35 @@ class _SignupScreenState extends State<SignupScreen> {
   //       await SharedPreferenceHelper().saveUserId(Id);
   //
   //       // ignore: use_build_context_synchronously
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => BottomNavbar()),
-  //       );
-  //     } on FirebaseException catch (e) {
-  //       if (e.code == 'weak-password') {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(
-  //             backgroundColor: Colors.orangeAccent,
-  //             content: Text(
-  //               "Password Provided is too Weak",
-  //               style: TextStyle(fontSize: 18.0),
-  //             ),
-  //           ),
-  //         );
-  //       } else if (e.code == "email-already-in-use") {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(
-  //             backgroundColor: Colors.orangeAccent,
-  //             content: Text(
-  //               "Account Already exists",
-  //               style: TextStyle(fontSize: 18.0),
-  //             ),
-  //           ),
-  //         );
-  //       }
-  //     }
-  //   }
-  // }
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BottomNavbar()),
+        );
+      } on FirebaseException catch (e) {
+        if (e.code == 'weak-password') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                "Password Provided is too Weak",
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+          );
+        } else if (e.code == "email-already-in-use") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                "Account Already exists",
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+          );
+        }
+      }
+    }
+  }
 
   bool _isPasswordVisible = false;
 
@@ -216,21 +217,21 @@ class _SignupScreenState extends State<SignupScreen> {
                                 SizedBox(height: 7.h),
                                 GestureDetector(
                                   onTap: () async {
-                                    // if (_formkey.currentState!.validate()) {
-                                    //   setState(() {
-                                    //     email = mailcontroller.text;
-                                    //     name = namecontroller.text;
-                                    //     password = passwordcontroller.text;
-                                    //   });
-                                    // }
-                                    // registration();
+                                    if (_formkey.currentState!.validate()) {
+                                      setState(() {
+                                        email = mailcontroller.text;
+                                        name = namecontroller.text;
+                                        password = passwordcontroller.text;
+                                      });
+                                    }
+                                    registration();
                                     // TODO
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => BottomNavbar(),
-                                      ),
-                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => BottomNavbar(),
+                                    //   ),
+                                    // );
                                   },
                                   child: Material(
                                     elevation: 5.0,
