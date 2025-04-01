@@ -1,4 +1,4 @@
-import 'package:capstone_project/widgets/widget_support.dart';
+import 'package:capstone/widgets/widget_support.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {

@@ -1,6 +1,6 @@
-import 'package:capstone_project/screens/profile_screen.dart';
-import 'package:capstone_project/screens/quiz_screen.dart';
-import 'package:capstone_project/screens/saved_screen.dart';
+import 'package:capstone/screens/profile_screen.dart';
+import 'package:capstone/screens/quiz_screen.dart';
+import 'package:capstone/screens/saved_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 

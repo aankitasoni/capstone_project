@@ -1,6 +1,5 @@
-
-import 'package:capstone_project/screens/bottom_navbar.dart';
-import 'package:capstone_project/screens/onboarding/onboarding_screen.dart';
+import 'package:capstone/screens/bottom_navbar.dart';
+import 'package:capstone/screens/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 

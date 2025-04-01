@@ -1,4 +1,4 @@
-import 'package:capstone_project/screens/admin/admin_login.dart';
+import 'package:capstone/screens/admin/admin_login.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -144,12 +144,10 @@ class ProfileScreen extends StatelessWidget {
               ),
               SizedBox(height: 30.0),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => AdminLogin(),
-                    ),
+                    MaterialPageRoute(builder: (context) => AdminLogin()),
                   );
                 },
                 child: Container(

@@ -1,4 +1,4 @@
-import 'package:capstone_project/screens/admin/add_content.dart';
+import 'package:capstone/screens/admin/add_content.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/widget_support.dart';
@@ -27,8 +27,11 @@ class _HomeAdminState extends State<HomeAdmin> {
             SizedBox(height: 50.0),
             GestureDetector(
               //TODO
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> AddContent()));
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddContent()),
+                );
               },
               child: Material(
                 elevation: 10.0,

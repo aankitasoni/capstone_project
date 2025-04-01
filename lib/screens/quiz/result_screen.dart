@@ -1,5 +1,5 @@
-import 'package:capstone_project/screens/bottom_navbar.dart';
-import 'package:capstone_project/screens/quiz_screen.dart';
+import 'package:capstone/screens/bottom_navbar.dart';
+import 'package:capstone/screens/quiz_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 

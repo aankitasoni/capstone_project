@@ -1,5 +1,4 @@
-
-import 'package:capstone_project/screens/login_signup/signup_screen.dart';
+import 'package:capstone/screens/login_signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassword extends StatefulWidget {

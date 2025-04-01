@@ -1,4 +1,4 @@
-import 'package:capstone_project/screens/admin/home_admin.dart';
+import 'package:capstone/screens/admin/home_admin.dart';
 import 'package:flutter/material.dart';
 
 class AdminLogin extends StatefulWidget {

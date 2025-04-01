@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:capstone_project/screens/quiz/result_screen.dart';
+import 'package:capstone/screens/quiz/result_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/quiz_service.dart';

@@ -1,5 +1,4 @@
-
-import 'package:capstone_project/screens/bottom_navbar.dart';
+import 'package:capstone/screens/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -13,7 +12,6 @@ class SignupScreen extends StatefulWidget {
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
-
 
 class _SignupScreenState extends State<SignupScreen> {
   String email = "", password = "", name = "";

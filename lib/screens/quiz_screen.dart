@@ -1,4 +1,4 @@
-import 'package:capstone_project/screens/quiz/quiz_main_screen.dart';
+import 'package:capstone/screens/quiz/quiz_main_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/backButton.dart';
 import '../widgets/widget_support.dart';
@@ -21,16 +21,16 @@ class QuizScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               backButton(
-              onPressed: () {
-        Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => BottomNavbar()),
-        );
-        },
-          iconColor: Colors.black,
-          circleColor: Colors.black12,
-        ),
-        Image.asset(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BottomNavbar()),
+                  );
+                },
+                iconColor: Colors.black,
+                circleColor: Colors.black12,
+              ),
+              Image.asset(
                 "assets/balloon2.png",
                 // width: 250,
               ),
