@@ -26,7 +26,7 @@ import org.gradle.api.file.Directory
 
         plugins {
             id("com.google.gms.google-services") version "4.4.2" apply false
-            id("org.jetbrains.kotlin.android") version "1.8.22" apply false
+            id("org.jetbrains.kotlin.android") version "2.1.0" apply false
         }
 
 allprojects {
@@ -43,7 +43,7 @@ buildscript {
     }
     dependencies {
         classpath("com.google.gms:google-services:4.4.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0")
     }
 }
 

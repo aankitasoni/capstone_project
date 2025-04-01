@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../services/database.dart';
+import '../../services/shared_pref.dart';
 import '../../widgets/widget_support.dart';
 import 'login_screen.dart';
 
@@ -40,19 +42,19 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           )),
         );
-  //
-  //       String Id = randomAlphaNumeric(10);
-  //       Map<String, dynamic> addUserInfo = {
-  //         "Name": namecontroller.text,
-  //         "Email": mailcontroller.text,
-  //         "Id": Id,
-  //       };
-  //       await DatabaseMethods().addUserDetail(addUserInfo, Id);
-  //       await SharedPreferenceHelper().saveUserName(namecontroller.text);
-  //       await SharedPreferenceHelper().saveUserEmail(mailcontroller.text);
-  //       await SharedPreferenceHelper().saveUserId(Id);
-  //
-  //       // ignore: use_build_context_synchronously
+
+        String Id = randomAlphaNumeric(10);
+        Map<String, dynamic> addUserInfo = {
+          "Name": namecontroller.text,
+          "Email": mailcontroller.text,
+          "Id": Id,
+        };
+        await DatabaseMethods().addUserDetail(addUserInfo, Id);
+        await SharedPreferenceHelper().saveUserName(namecontroller.text);
+        await SharedPreferenceHelper().saveUserEmail(mailcontroller.text);
+        await SharedPreferenceHelper().saveUserId(Id);
+
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => BottomNavbar()),
@@ -225,13 +227,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                       });
                                     }
                                     registration();
-                                    // TODO
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => BottomNavbar(),
-                                    //   ),
-                                    // );
                                   },
                                   child: Material(
                                     elevation: 5.0,
