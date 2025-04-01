@@ -1,3 +1,4 @@
+import 'package:capstone/screens/admin/home_admin.dart';
 import 'package:capstone/screens/bottom_navbar.dart';
 import 'package:capstone/screens/onboarding/onboarding_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           // home: const BottomNavbar(),
           // home: const LoginScreen(),
           home: const OnboardingScreen(),
+          // home: const HomeAdmin(),
         );
       },
     );

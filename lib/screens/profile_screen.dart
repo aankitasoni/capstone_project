@@ -1,9 +1,36 @@
 import 'package:capstone/screens/admin/admin_login.dart';
 import 'package:capstone/screens/login_signup/login_screen.dart';
+import 'package:capstone/services/shared_pref.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String? profile, name, email;
+
+  getTheSharedPref() async {
+    profile = await SharedPreferenceHelper().getUserProfile();
+    name = await SharedPreferenceHelper().getUserName();
+    email = await SharedPreferenceHelper().getUserEmail();
+    setState(() {});
+  }
+
+  onthisload() async {
+    await getTheSharedPref();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    onthisload();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
