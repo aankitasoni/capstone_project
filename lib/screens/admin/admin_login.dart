@@ -1,4 +1,5 @@
 import 'package:capstone/screens/admin/home_admin.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AdminLogin extends StatefulWidget {
@@ -10,6 +11,7 @@ class AdminLogin extends StatefulWidget {
 
 class _AdminLoginState extends State<AdminLogin> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   TextEditingController usernameController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
 
@@ -166,15 +168,7 @@ class _AdminLoginState extends State<AdminLogin> {
                                 SizedBox(height: 40.0),
                                 GestureDetector(
                                   onTap: () {
-                                    //TODO
-
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => HomeAdmin(),
-                                      ),
-                                    );
-                                    // LoginAdmin();
+                                    LoginAdmin();
                                   },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
@@ -216,29 +210,35 @@ class _AdminLoginState extends State<AdminLogin> {
     );
   }
 
-  // LoginAdmin() {
-  //   FirebaseFirestore.instance.collection("Admin").get().then((snapshot) {
-  //     snapshot.docs.forEach((result) {
-  //       if (result.data()['id'] != usernamecontroller.text.trim()) {
-  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //             backgroundColor: Colors.orangeAccent,
-  //             content: Text(
-  //               "Your id is not correct",
-  //               style: TextStyle(fontSize: 18.0),
-  //             )));
-  //       } else if (result.data()['password'] !=
-  //           userpasswordcontroller.text.trim()) {
-  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //             backgroundColor: Colors.orangeAccent,
-  //             content: Text(
-  //               "Your password is not correct",
-  //               style: TextStyle(fontSize: 18.0),
-  //             )));
-  //       } else {
-  //         Route route = MaterialPageRoute(builder: (context) => HomeAdmin());
-  //         Navigator.pushReplacement(context, route);
-  //       }
-  //     });
-  //   });
-  // }
+  LoginAdmin() {
+    FirebaseFirestore.instance.collection("Admin").get().then((snapshot) {
+      snapshot.docs.forEach((result) {
+        if (result.data()['id'] != usernameController.text.trim()) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                "Your id is not correct",
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+          );
+        } else if (result.data()['password'] !=
+            userPasswordController.text.trim()) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                "Your password is not correct",
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+          );
+        } else {
+          Route route = MaterialPageRoute(builder: (context) => HomeAdmin());
+          Navigator.pushReplacement(context, route);
+        }
+      });
+    });
+  }
 }
