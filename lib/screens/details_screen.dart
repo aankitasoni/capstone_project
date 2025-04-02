@@ -4,6 +4,7 @@ import 'package:capstone/services/shared_pref.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../widgets/widget_support.dart';
 
@@ -49,70 +50,78 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        margin: EdgeInsets.only(top: 5.h, left: 5.w, right: 5.w),
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.arrow_back_ios_new_outlined,
-                color: Colors.black,
-              ),
-            ),
-            Image.asset(
-              "assets/books.jpg",
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2.5,
-              fit: BoxFit.fill,
-            ),
-            SizedBox(height: 2.h),
-            Row(
-              children: [
-                Column(
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.title,
-                      style: AppWidget.semiBoldTextFieldStyle(),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back_ios_new_outlined,
+                        color: Colors.black,
+                      ),
                     ),
-                    Text(
-                      widget.subtitle,
-                      style: AppWidget.boldTextFieldStyle(),
+                    Image.asset(
+                      "assets/books.jpg",
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 2.5,
+                      fit: BoxFit.fill,
                     ),
+                    SizedBox(height: 2.h),
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.title,
+                              style: AppWidget.semiBoldTextFieldStyle(),
+                            ),
+                            Text(
+                              widget.subtitle,
+                              style: AppWidget.boldTextFieldStyle(),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            a = (a == 1) ? 0 : 1;
+                            setState(() {});
+                          },
+                          child: Container(
+                            height: 4.h,
+                            width: 9.w,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(
+                              a == 1 ? Icons.bookmark : Icons.bookmark_border,
+                              color: Colors.white,
+                              size: 3.5.h,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(widget.content, style: AppWidget.lightTextFieldStyle()),
+                    SizedBox(height: 3.h),
                   ],
                 ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    a = (a == 1) ? 0 : 1;
-                    setState(() {});
-                  },
-                  child: Container(
-                    height: 4.h,
-                    width: 9.w,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(
-                      a == 1 ? Icons.bookmark : Icons.bookmark_border,
-                      color: Colors.white,
-                      size: 3.5.h,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-            SizedBox(height: 2.h),
-            Text(widget.content, style: AppWidget.lightTextFieldStyle()),
-            SizedBox(height: 3.h),
-            Spacer(),
-            Padding(
-              padding: EdgeInsets.only(bottom: 3.0.h),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 2.h),
+              color: Colors.white,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -169,35 +178,42 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2.5,
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.green[300],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Share",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 19.0,
-                            fontFamily: 'Poppins',
+                  GestureDetector(
+                    onTap: (){
+                      String shareText =
+                          "${widget.title}\n\n${widget.subtitle}\n\n${widget.content}";
+                      Share.share(shareText);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.green[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Share",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 19.0,
+                              fontFamily: 'Poppins',
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 6.w),
-                        Container(
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            color: Colors.green[400],
-                            borderRadius: BorderRadius.circular(8),
+                          SizedBox(width: 6.w),
+                          Container(
+                            padding: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              color: Colors.green[400],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(Icons.share_rounded, color: Colors.black),
                           ),
-                          child: Icon(Icons.share_rounded, color: Colors.black),
-                        ),
-                        SizedBox(width: 10.0),
-                      ],
+                          SizedBox(width: 10.0),
+                        ],
+                      ),
                     ),
                   ),
                 ],

@@ -16,8 +16,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool pdf = false, notes = false, questions = false, important = false;
 
-  // ice, pizza, salad,burger
-
   Stream? contentTypeStream;
 
   ontheload() async {
@@ -139,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.zero,
               itemCount: snapshot.data.docs.length,
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
                 DocumentSnapshot ds = snapshot.data.docs[index];
@@ -245,11 +244,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(height: 25.0),
 
-                Container(height: 37.6.h, child: allItems()),
+                SizedBox(height: 37.6.h, child: allItems()),
 
                 SizedBox(height: 30.0),
 
-                allItemsVertically(),
+                SingleChildScrollView(child: allItemsVertically()),
                 SizedBox(height: 30.0),
                 SizedBox(height: 30.0),
               ],
@@ -278,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(10),
             child: Container(
               decoration: BoxDecoration(
-                // color: icecream ? Colors.black : Colors.white,
+                color: pdf ? Color(0xFFff5c10) : Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               padding: EdgeInsets.all(8),
@@ -307,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(10),
             child: Container(
               decoration: BoxDecoration(
-                // color: pizza ? Colors.black : Colors.white,
+                color: notes ? Color(0xFFff5c10) : Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               padding: EdgeInsets.all(8),
@@ -338,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(10),
             child: Container(
               decoration: BoxDecoration(
-                // color: salad ? Colors.black : Colors.white,
+                color: questions ? Color(0xFFff5c10) : Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               padding: EdgeInsets.all(8),
@@ -347,7 +346,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 40,
                 width: 40,
                 fit: BoxFit.cover,
-                // color: salad ? Colors.white : Colors.black,
               ),
             ),
           ),
@@ -369,6 +367,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(10),
             child: Container(
               decoration: BoxDecoration(
+                color: important ? Color(0xFFff5c10) : Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               padding: EdgeInsets.all(8),

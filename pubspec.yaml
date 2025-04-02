@@ -49,6 +49,8 @@ dependencies:
   file_picker:
   image_picker:
   shared_preferences:
+  flutter_pdfview:
+  share_plus:
 
 
 dev_dependencies:
